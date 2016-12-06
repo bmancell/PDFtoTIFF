@@ -1,0 +1,21 @@
+import arcpy
+from arcpy import env
+import os
+
+#Set workspace
+env.workspace = 'C:\\Users\\bmancell\\Documents\\Projects\\NBs_Alts\\PDFs\\NBs'
+
+#Create new folder for tif output
+arcpy.CreateFolder_management('C:\\Users\\bmancell\\Documents\\Projects\\NBs_Alts','TIFFs')
+tifPath = 'C:\\Users\\bmancell\\Documents\\Projects\\NBs_Alts\\TIFFs'
+
+#Folder to list
+pdfFileList = arcpy.ListFiles('*.pdf')
+
+#Convert pdfs to tif
+for pdfFile in pdfFileList:
+     pdfFileName = os.path.splitext(pdfFile)[0]
+     tifFileName = pdfFileName + '.tif'
+     outTIFF = tifPath + '\\' + tifFileName
+     inPDF = env.workspace + '\\' + pdfFile 
+     arcpy.PDFToTIFF_conversion (inPDF,outTIFF)
